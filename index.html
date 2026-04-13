@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NovaWeb</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #03091a;
+      --bg2:      #060f28;
+      --cyan:     #00e5ff;
+      --purple:   #7b2fff;
+      --blue:     #1a6fff;
+      --grad:     linear-gradient(135deg, var(--purple), var(--blue), var(--cyan));
+      --text:     #e8f0fe;
+      --muted:    #7a90b8;
+      --card:     rgba(255,255,255,.04);
+      --border:   rgba(0,229,255,.15);
+      --glow:     0 0 32px rgba(0,229,255,.18);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ─── GRID BG ─── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    section, nav, footer { position: relative; z-index: 1; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 6vw;
+      background: rgba(3,9,26,.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: .7rem;
+      text-decoration: none;
+    }
+    .nav-logo img {
+      height: 38px;
+      /* REEMPLAZÁ POR TU LOGO: <img src="logo.png" ...> */
+    }
+    .logo-placeholder {
+      height: 38px; width: 56px;
+      background: var(--grad);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900; font-size: .95rem;
+      color: #fff; letter-spacing: 1px;
+    }
+    .nav-brand {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900; font-size: 1.25rem;
+      letter-spacing: 3px;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 1rem; font-weight: 600; letter-spacing: 1px;
+      transition: color .25s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--cyan); border-radius: 2px;
+      transition: .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none; flex-direction: column;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: rgba(3,9,26,.97);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 6vw; gap: 1.2rem;
+      z-index: 99;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--muted); text-decoration: none;
+      font-size: 1.1rem; font-weight: 600; letter-spacing: 1px;
+      transition: color .25s;
+    }
+    .mobile-menu a:hover { color: var(--cyan); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 7rem 6vw 4rem;
+      background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(123,47,255,.18) 0%, transparent 70%);
+    }
+
+    .hero-badge {
+      display: inline-block;
+      border: 1px solid var(--border);
+      color: var(--cyan); font-size: .85rem;
+      letter-spacing: 2px; font-weight: 600;
+      padding: .35rem 1rem; border-radius: 99px;
+      margin-bottom: 1.8rem;
+      animation: fadeUp .8s ease both;
+    }
+
+    #hero h1 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(2.6rem, 7vw, 5.5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: 2px;
+      animation: fadeUp .8s .15s ease both;
+    }
+    #hero h1 span {
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    #hero p {
+      max-width: 620px; margin: 1.5rem auto 0;
+      color: var(--muted); font-size: 1.15rem; line-height: 1.7;
+      animation: fadeUp .8s .3s ease both;
+    }
+
+    .hero-btns {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      justify-content: center; margin-top: 2.5rem;
+      animation: fadeUp .8s .45s ease both;
+    }
+    .btn-primary {
+      padding: .75rem 2rem;
+      background: var(--grad); color: #fff;
+      border: none; border-radius: 8px;
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 700; font-size: 1rem; letter-spacing: 1px;
+      cursor: pointer; text-decoration: none;
+      transition: opacity .2s, transform .2s, box-shadow .2s;
+    }
+    .btn-primary:hover { opacity: .85; transform: translateY(-2px); box-shadow: var(--glow); }
+
+    .btn-outline {
+      padding: .75rem 2rem;
+      background: transparent; color: var(--cyan);
+      border: 1px solid var(--cyan); border-radius: 8px;
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 700; font-size: 1rem; letter-spacing: 1px;
+      cursor: pointer; text-decoration: none;
+      transition: background .2s, transform .2s;
+    }
+    .btn-outline:hover { background: rgba(0,229,255,.08); transform: translateY(-2px); }
+
+    /* ─── SECTION BASE ─── */
+    section { padding: 6rem 6vw; }
+
+    .section-label {
+      font-size: .78rem; letter-spacing: 3px; color: var(--cyan);
+      font-weight: 700; text-transform: uppercase;
+      margin-bottom: .5rem;
+    }
+
+    .section-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900; letter-spacing: 1px;
+      line-height: 1.1;
+    }
+    .section-title span {
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+
+    .section-desc {
+      color: var(--muted); font-size: 1.05rem; line-height: 1.7;
+      max-width: 680px; margin-top: .8rem;
+    }
+
+    /* ─── QUIÉNES SOMOS ─── */
+    #quienes {
+      background: linear-gradient(to bottom, var(--bg), var(--bg2));
+    }
+    .quienes-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; margin-top: 3.5rem;
+    }
+    .quienes-text p {
+      color: var(--muted); font-size: 1.08rem; line-height: 1.8;
+    }
+
+    /* frame decorativo */
+    .frame-box {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2.5rem;
+      background: var(--card);
+      overflow: hidden;
+    }
+    .frame-box::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 0% 0%, rgba(123,47,255,.12), transparent 60%);
+      pointer-events: none;
+    }
+    .frame-corner {
+      position: absolute; width: 20px; height: 20px;
+      border-color: var(--cyan); border-style: solid;
+    }
+    .fc-tl { top: 8px; left: 8px; border-width: 2px 0 0 2px; }
+    .fc-tr { top: 8px; right: 8px; border-width: 2px 2px 0 0; }
+    .fc-bl { bottom: 8px; left: 8px; border-width: 0 0 2px 2px; }
+    .fc-br { bottom: 8px; right: 8px; border-width: 0 2px 2px 0; }
+
+    /* ─── MISIÓN Y VISIÓN ─── */
+    #mision { background: var(--bg); }
+    .mv-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; margin-top: 3rem;
+    }
+    .mv-card {
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.2rem;
+      background: var(--card);
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s;
+    }
+    .mv-card:hover { border-color: var(--cyan); transform: translateY(-4px); }
+    .mv-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(0,229,255,.07), transparent 60%);
+      pointer-events: none;
+    }
+    .mv-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--cyan); margin-bottom: 1rem;
+    }
+    .mv-card p { color: var(--muted); font-size: 1.02rem; line-height: 1.75; }
+
+    /* ─── SERVICIOS ─── */
+    #servicios { background: var(--bg2); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .service-card {
+      border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+      background: var(--card);
+      position: relative; overflow: hidden;
+      transition: border-color .3s, transform .3s, box-shadow .3s;
+    }
+    .service-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 32px rgba(123,47,255,.2);
+    }
+    .service-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; margin-bottom: 1.2rem;
+    }
+    .service-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.1rem; font-weight: 700; margin-bottom: .6rem;
+    }
+    .service-card p { color: var(--muted); font-size: .97rem; line-height: 1.7; }
+
+    /* ─── METODOLOGÍA ─── */
+    #metodologia { background: var(--bg); }
+    .meto-inner {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center; margin-top: 3rem;
+    }
+    .meto-list { list-style: none; display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+    .meto-list li {
+      display: flex; align-items: flex-start; gap: 1rem;
+      padding: 1.1rem 1.3rem;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--card);
+      transition: border-color .3s;
+    }
+    .meto-list li:hover { border-color: var(--cyan); }
+    .meto-dot {
+      min-width: 10px; height: 10px; border-radius: 50%;
+      background: var(--grad); margin-top: 5px;
+    }
+    .meto-list li span { color: var(--muted); font-size: 1rem; line-height: 1.6; }
+
+    .meto-visual {
+      display: flex; align-items: center; justify-content: center;
+    }
+    .scrum-circle {
+      width: 260px; height: 260px; border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      position: relative;
+      background: radial-gradient(ellipse, rgba(123,47,255,.1), transparent 70%);
+      animation: spin-slow 20s linear infinite;
+    }
+    @keyframes spin-slow { to { transform: rotate(360deg); } }
+    .scrum-inner {
+      text-align: center;
+      animation: spin-slow 20s linear infinite reverse;
+    }
+    .scrum-inner .big {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 2.2rem; font-weight: 900;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .scrum-inner .sub {
+      font-size: .85rem; color: var(--muted); letter-spacing: 2px;
+    }
+    .scrum-dot {
+      position: absolute; width: 12px; height: 12px;
+      border-radius: 50%; background: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan);
+    }
+    .sd1 { top: -6px; left: 50%; transform: translateX(-50%); }
+    .sd2 { bottom: -6px; left: 50%; transform: translateX(-50%); }
+    .sd3 { left: -6px; top: 50%; transform: translateY(-50%); }
+    .sd4 { right: -6px; top: 50%; transform: translateY(-50%); }
+
+    /* ─── EQUIPO ─── */
+    #equipo { background: var(--bg2); }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .team-card {
+      border: 1px solid var(--border); border-radius: 16px;
+      padding: 2rem 1.5rem; text-align: center;
+      background: var(--card);
+      transition: border-color .3s, transform .3s;
+    }
+    .team-card:hover { border-color: var(--cyan); transform: translateY(-5px); }
+    .team-avatar {
+      width: 80px; height: 80px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--purple), var(--blue));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.6rem; font-weight: 900; color: #fff;
+      margin: 0 auto 1rem;
+      border: 2px solid var(--border);
+    }
+    .team-card h3 {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.05rem; font-weight: 700; margin-bottom: .35rem;
+    }
+    .team-role {
+      font-size: .85rem; color: var(--cyan);
+      letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+    }
+
+    /* ─── STACK ─── */
+    #stack { background: var(--bg); }
+    .stack-grid {
+      display: flex; flex-wrap: wrap; gap: 1.2rem;
+      margin-top: 3rem;
+    }
+    .stack-badge {
+      display: flex; align-items: center; gap: .7rem;
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: .9rem 1.4rem;
+      background: var(--card); font-size: 1rem; font-weight: 600;
+      transition: border-color .3s, transform .3s;
+    }
+    .stack-badge:hover { border-color: var(--cyan); transform: translateY(-3px); }
+    .stack-badge .dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .stack-badge i { font-size: 1.1rem; }
+    .service-icon i { font-size: 1.5rem; color: #fff; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 6vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+      background: var(--bg2);
+    }
+    .footer-brand {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 900; font-size: 1.1rem;
+      letter-spacing: 3px;
+      background: var(--grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .footer-tag {
+      font-size: .85rem; color: var(--muted);
+      margin-top: .25rem; letter-spacing: 1px;
+    }
+    .footer-copy {
+      font-size: .85rem; color: var(--muted);
+    }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .quienes-grid,
+      .mv-grid,
+      .meto-inner { grid-template-columns: 1fr; gap: 2rem; }
+
+      .meto-visual { display: none; }
+
+      footer { flex-direction: column; text-align: center; }
+
+      #hero h1 { font-size: 2.4rem; }
+    }
+
+    @media (max-width: 480px) {
+      section { padding: 4rem 5vw; }
+      .hero-btns { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <a href="#hero" class="nav-logo">
+    <img src="logo.png" alt="NovaWeb" style="height:38px;">
+    <span class="nav-brand">NOVAWEB</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#quienes">Nosotros</a></li>
+    <li><a href="#mision">Misión</a></li>
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#metodologia">Metodología</a></li>
+    <li><a href="#equipo">Equipo</a></li>
+    <li><a href="#stack">Stack</a></li>
+  </ul>
+  <button class="hamburger" id="ham" aria-label="Menú">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#quienes">Nosotros</a>
+  <a href="#mision">Misión</a>
+  <a href="#servicios">Servicios</a>
+  <a href="#metodologia">Metodología</a>
+  <a href="#equipo">Equipo</a>
+  <a href="#stack">Stack</a>
+</div>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-badge"><i class="bi bi-rocket-takeoff-fill"></i> Empresa boliviana de desarrollo web</div>
+  <h1>De la idea al<br><span>universo digital</span></h1>
+  <p>Convertimos ideas en productos funcionales, modernos y escalables. Desde aplicaciones web hasta sistemas de gestión complejos, construimos tecnología a la altura de tu negocio.</p>
+  <div class="hero-btns">
+    <a href="#servicios" class="btn-primary">Ver servicios</a>
+    <a href="#equipo" class="btn-outline">Conocer el equipo</a>
+  </div>
+</section>
+
+<!-- ─── QUIÉNES SOMOS ─── -->
+<section id="quienes">
+  <div class="section-label">¿Quiénes somos?</div>
+  <h2 class="section-title"><span>NovaWeb</span> — Santa Cruz, Bolivia</h2>
+
+  <div class="quienes-grid reveal">
+    <div class="quienes-text">
+      <p>NovaWeb es una empresa boliviana de desarrollo de sistemas web, conformada por un equipo joven apasionado por la tecnología y la innovación.</p>
+      <br>
+      <p>Nos especializamos en construir soluciones digitales a medida que transforman la manera en que los negocios operan, conectan y crecen.</p>
+      <br>
+      <p>Creemos que cada negocio merece tecnología que esté a su altura, y eso es exactamente lo que construimos.</p>
+    </div>
+    <div class="frame-box">
+      <div class="frame-corner fc-tl"></div>
+      <div class="frame-corner fc-tr"></div>
+      <div class="frame-corner fc-bl"></div>
+      <div class="frame-corner fc-br"></div>
+      <p style="font-size:1.05rem; color:var(--muted); line-height:1.8;">
+        Desde aplicaciones web hasta sistemas de gestión complejos, convertimos ideas en productos 
+        <strong style="color:var(--text);">funcionales, modernos y escalables</strong> que impulsan la transformación digital de empresas y organizaciones.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MISIÓN Y VISIÓN ─── -->
+<section id="mision">
+  <div class="section-label">Propósito</div>
+  <h2 class="section-title">Misión <span>&</span> Visión</h2>
+
+  <div class="mv-grid reveal">
+    <div class="mv-card">
+      <h3><i class="bi bi-bullseye"></i> Misión</h3>
+      <p>Desarrollar soluciones tecnológicas web de alta calidad que respondan a las necesidades reales de nuestros clientes, combinando creatividad, metodología ágil y las mejores prácticas del desarrollo de software, para impulsar la transformación digital de empresas y organizaciones.</p>
+    </div>
+    <div class="mv-card">
+      <h3><i class="bi bi-binoculars-fill"></i> Visión</h3>
+      <p>Ser una empresa de referencia en el desarrollo de sistemas web en Bolivia, reconocida por la calidad de sus productos, la innovación constante y el impacto positivo que genera en los negocios de sus clientes, expandiendo su presencia hacia el mercado latinoamericano.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICIOS ─── -->
+<section id="servicios">
+  <div class="section-label">Lo que hacemos</div>
+  <h2 class="section-title">Nuestros <span>Servicios</span></h2>
+  <p class="section-desc">Soluciones completas para llevar tu negocio al universo digital con tecnología moderna y escalable.</p>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-globe2"></i></div>
+      <h3>Desarrollo de aplicaciones web</h3>
+      <p>Construimos sistemas completos con frontend moderno y backend robusto, adaptados a las necesidades específicas de cada cliente.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-database-fill"></i></div>
+      <h3>Gestión de bases de datos</h3>
+      <p>Diseñamos bases de datos normalizadas, eficientes y seguras que sostienen el corazón de cualquier sistema.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-credit-card-2-front-fill"></i></div>
+      <h3>Integración de pagos</h3>
+      <p>Implementamos pasarelas de pago para que tus clientes puedan comprar, suscribirse y pagar de forma segura y automatizada.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-lightbulb-fill"></i></div>
+      <h3>Consultoría tecnológica</h3>
+      <p>Asesoramos a empresas en la elección de tecnologías, arquitectura de sistemas y metodologías de trabajo para proyectos exitosos desde el inicio.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-icon"><i class="bi bi-stars"></i></div>
+      <h3>Y más...</h3>
+      <p>Nuestras soluciones no se limitan a una lista. Si tienes una idea, nosotros encontramos la manera de hacerla realidad.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── METODOLOGÍA ─── -->
+<section id="metodologia">
+  <div class="section-label">Cómo trabajamos</div>
+  <h2 class="section-title">Nuestra <span>Metodología</span></h2>
+
+  <div class="meto-inner reveal">
+    <div>
+      <p class="section-desc">Trabajamos con <strong style="color:var(--cyan)">Scrum</strong>, una metodología ágil que divide el proyecto en ciclos cortos llamados sprints, permitiéndonos entregar resultados reales y funcionales desde el inicio.</p>
+      <ul class="meto-list">
+        <li><i class="bi bi-arrow-right-circle-fill" style="color:var(--cyan);font-size:1.1rem;flex-shrink:0"></i><span>Entregas por sprints con resultados visibles desde el inicio</span></li>
+        <li><i class="bi bi-arrow-right-circle-fill" style="color:var(--cyan);font-size:1.1rem;flex-shrink:0"></i><span>Backlog priorizado según las necesidades del cliente</span></li>
+        <li><i class="bi bi-arrow-right-circle-fill" style="color:var(--cyan);font-size:1.1rem;flex-shrink:0"></i><span>Comunicación constante en cada etapa del proyecto</span></li>
+        <li><i class="bi bi-arrow-right-circle-fill" style="color:var(--cyan);font-size:1.1rem;flex-shrink:0"></i><span>Control de versiones con Git para un desarrollo ordenado y seguro</span></li>
+      </ul>
+    </div>
+    <div class="meto-visual">
+      <div class="scrum-circle">
+        <div class="scrum-dot sd1"></div>
+        <div class="scrum-dot sd2"></div>
+        <div class="scrum-dot sd3"></div>
+        <div class="scrum-dot sd4"></div>
+        <div class="scrum-inner">
+          <div class="big">SCRUM</div>
+          <div class="sub">METODOLOGÍA ÁGIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EQUIPO ─── -->
+<section id="equipo">
+  <div class="section-label">Las personas detrás</div>
+  <h2 class="section-title">Nuestro <span>Equipo</span></h2>
+
+  <div class="team-grid reveal">
+    <div class="team-card">
+      <div class="team-avatar">SB</div>
+      <h3>Samira Barrientos</h3>
+      <div class="team-role">Product Owner</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">RC</div>
+      <h3>Rosario Chavez</h3>
+      <div class="team-role">Scrum Master</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">DA</div>
+      <h3>Dayana Arias</h3>
+      <div class="team-role">Backend DEV</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">OT</div>
+      <h3>Oliver Tarqui</h3>
+      <div class="team-role">Frontend DEV</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── STACK ─── -->
+<section id="stack">
+  <div class="section-label">Tecnologías</div>
+  <h2 class="section-title">Stack <span>Tecnológico</span></h2>
+  <p class="section-desc">Tecnologías modernas, robustas y ampliamente adoptadas en la industria, garantizando sistemas escalables, seguros y de alto rendimiento.</p>
+
+  <div class="stack-grid reveal">
+    <div class="stack-badge"><i class="bi bi-filetype-html" style="color:#e44d26"></i> HTML</div>
+    <div class="stack-badge"><i class="bi bi-filetype-css" style="color:#264de4"></i> CSS</div>
+    <div class="stack-badge"><i class="bi bi-filetype-js" style="color:#f7df1e"></i> JavaScript</div>
+    <div class="stack-badge"><i class="bi bi-box-fill" style="color:#ff5050"></i> Laravel</div>
+    <div class="stack-badge"><i class="bi bi-shield-fill" style="color:#1976d2"></i> Angular</div>
+    <div class="stack-badge"><i class="bi bi-hdd-stack-fill" style="color:#336791"></i> PostgreSQL</div>
+    <div class="stack-badge"><i class="bi bi-database-fill" style="color:#cc2927"></i> SQL Server</div>
+    <div class="stack-badge"><i class="bi bi-server" style="color:#f29111"></i> MySQL</div>
+    <div class="stack-badge"><i class="bi bi-github" style="color:#e0e0e0"></i> GitHub</div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>
+    <div class="footer-brand">NOVAWEB</div>
+    <div class="footer-tag">De la idea al universo digital</div>
+  </div>
+  <div class="footer-copy">© 2026 NovaWeb · Bolivia</div>
+</footer>
+
+<script>
+  // Hamburger
+  const ham = document.getElementById('ham');
+  const mobileMenu = document.getElementById('mobileMenu');
+  ham.addEventListener('click', () => {
+    ham.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      ham.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
